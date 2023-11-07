@@ -1,0 +1,38 @@
+<div class="main">
+    <div class="screen">
+        <textarea inputmode ="none" #screen></textarea>
+        <div class="result">
+            {{ result ?? "" | number:"1.0-6" }}
+        </div>
+    </div>
+    <div class="functions">
+        <button (click)="postOperation('\(')">(</button>
+        <button (click)="postOperation('\)')">)</button>
+        <button (click)="refresh()"><img src="assets/refresh.png"></button>
+        <button (click)="getVersion()">v</button>
+    </div>
+    <div class="numbers">
+        <button (click)="postNumber(7)">7</button>
+        <button (click)="postNumber(8)">8</button>
+        <button (click)="postNumber(9)">9</button>
+        <button (click)="postNumber(4)">4</button>
+        <button (click)="postNumber(5)">5</button>
+        <button (click)="postNumber(6)">6</button>
+        <button (click)="postNumber(1)">1</button>
+        <button (click)="postNumber(2)">2</button>
+        <button (click)="postNumber(3)">3</button>
+        <button (click)="postNumber(0)">0</button>
+        <button (click)="postOperation('.')">.</button>
+        <button (click)="postOperation('×10')">×10</button>
+    </div>
+    <div class="operations">
+        <button (click)="backspace()"><img src="assets/backspace.png"></button>
+        <button (click)="clear()">AC</button>
+        <button (click)="postOperation('×')">×</button>
+        <button (click)="postOperation('÷')">÷</button>
+        <button (click)="postOperation('+')">+</button>
+        <button (click)="postOperation('-')">-</button>
+        <button (click)="postOperation('ans')">ans</button>
+        <button (click)="calculate()">=</button>
+    </div>
+</div>

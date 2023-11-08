@@ -16,7 +16,7 @@ export class MainComponent {
   @ViewChild("resultBox") resultBox!: ElementRef;
   result: number | null = null;
   ans: number = 0;
-  version: number = 1;
+  version: number = 2;
   angle: "deg" | "rad" | "grad"  = "deg";
   math: any;
 

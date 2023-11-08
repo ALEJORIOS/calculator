@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import * as math from 'mathjs';
+import {create, all} from 'mathjs';
+import { ArrayType } from '@angular/compiler';
 
 @Component({
   selector: 'app-main',
@@ -16,7 +17,14 @@ export class MainComponent {
   result: number | null = null;
   ans: number = 0;
   version: number = 1;
+  angle: "deg" | "rad" | "grad"  = "deg";
+  math: any;
 
+  constructor() {
+    this.math = create(all);
+    console.log('Math: ', this.math);
+    this.boostrap();
+  }
   getCaretOffset() {
     return this.screen.nativeElement.selectionStart;
   }
@@ -24,6 +32,10 @@ export class MainComponent {
   setCaretPosition(position: number) {
     this.screen.nativeElement.selectionStart = position+1;
     this.screen.nativeElement.selectionEnd = position+1;
+  }
+
+  changeAngleUnit() {
+
   }
 
   postNumber(number: number) {
@@ -43,7 +55,7 @@ export class MainComponent {
     this.screen.nativeElement.focus()
   }
 
-  postOperation(operation: string) {
+  postOperation(operation: string, length?: number) {
     const currentCaretPosition: number = this.getCaretOffset();
     if (this.screen.nativeElement.selectionStart || this.screen.nativeElement.selectionStart === '0') {
       var startPos = this.screen.nativeElement.selectionStart;
@@ -56,8 +68,8 @@ export class MainComponent {
     }
     this.screen.nativeElement.value = this.screen.nativeElement.value.replaceAll("\n", "");
     this.screen.nativeElement.value = this.screen.nativeElement.value.replaceAll(" ", "");
-    if(operation === 'ans') {
-      this.setCaretPosition(currentCaretPosition+2);
+    if(length) {
+      this.setCaretPosition(currentCaretPosition+length);
     }else{
       this.setCaretPosition(currentCaretPosition);
     }
@@ -77,7 +89,7 @@ export class MainComponent {
     let result: number = 0;
     const rawData = this.screen.nativeElement.value.replaceAll('×', '*').replaceAll('÷','/').replaceAll('ans', this.ans);
 
-    result = math.evaluate(rawData);
+    result = this.math.evaluate(rawData);
     this.result = result;
     this.ans = result;
   }
@@ -86,6 +98,16 @@ export class MainComponent {
     this.screen.nativeElement.value = "";
     this.screen.nativeElement.focus();
     this.result = null;
+  }
+
+  changeAngle() {
+    const changeObject: any = {
+      deg: "rad",
+      rad: "grad",
+      grad: "deg"
+    }
+    this.angle = changeObject[this.angle];
+    this.boostrap();
   }
 
   showNative() {
@@ -100,5 +122,29 @@ export class MainComponent {
 
   refresh() {
     window.location.reload();
+  }
+
+  boostrap() {
+    let replacements: any = {}
+    const fns1 = ['sin', 'cos', 'tan', 'sec', 'cot', 'csc']
+    fns1.forEach((name: string) => {
+      const fn = this.math[name as keyof typeof this.math] // the original function  
+      const fnNumber = (x: any) => {
+        console.log('>>> ', this.angle);
+        switch (this.angle) {
+          case 'deg':
+            return fn(x / 360 * 2 * Math.PI)
+          case 'grad':
+            return fn(x / 400 * 2 * Math.PI)
+          default:
+            return fn(x)
+        }
+      }
+      // create a typed-function which check the input types
+      replacements[name] = this.math.typed(name, {
+        'number': fnNumber
+      })
+    })
+    this.math.import(replacements, {override: true})
   }
 }

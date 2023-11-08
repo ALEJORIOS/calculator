@@ -1,6 +1,6 @@
 <div class="main">
     <div class="screen">
-        <textarea inputmode ="none" #screen></textarea>
+        <textarea inputmode ="none" spellcheck="false" #screen></textarea>
         <div class="result">
             {{ result ?? "" | number:"1.0-6" }}
         </div>
@@ -9,7 +9,11 @@
         <button (click)="postOperation('\(')">(</button>
         <button (click)="postOperation('\)')">)</button>
         <button (click)="refresh()"><img src="assets/refresh.png"></button>
-        <button (click)="getVersion()">v</button>
+        <button (click)="getVersion()">V</button>
+        <button (click)="changeAngle()">DEG</button>
+        <button (click)="postOperation('sin(', 4)">SIN</button>
+        <button (click)="postOperation('cos(', 4)">COS</button>
+        <button (click)="postOperation('tan(', 4)">TAN</button>
     </div>
     <div class="numbers">
         <button (click)="postNumber(7)">7</button>
@@ -32,7 +36,7 @@
         <button (click)="postOperation('÷')">÷</button>
         <button (click)="postOperation('+')">+</button>
         <button (click)="postOperation('-')">-</button>
-        <button (click)="postOperation('ans')">ans</button>
+        <button (click)="postOperation('ans',3)">ans</button>
         <button (click)="calculate()">=</button>
     </div>
 </div>

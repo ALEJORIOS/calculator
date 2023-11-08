@@ -3,8 +3,8 @@
     border: none;
     font-size: 26px;
     color: white;
-    aspect-ratio: 1;
-    border-radius: 25%;
+    // aspect-ratio: 1;
+    border-radius: 15px;
     margin: 2px;
 }
 .main {
@@ -49,6 +49,10 @@
         padding: 8px;
         button {
             @include buttonStyle(#1d00b6);
+            max-height: calc(17vw - 16px);
+            min-width: calc(17vw - 16px);
+            font-size: 20px;
+            border-radius: 10px;
             img {
                 filter: invert(99%) sepia(1%) saturate(1280%) hue-rotate(333deg) brightness(108%) contrast(100%);
             }
@@ -61,6 +65,7 @@
         grid-template-columns: repeat(3, 1fr);
         button {
             @include buttonStyle(#0075ff);
+            aspect-ratio: 1;
         }
     }
     .operations {
@@ -70,6 +75,7 @@
         grid-template-columns: repeat(2, 1fr);
         button {
             @include buttonStyle(#0046ff);
+            aspect-ratio: 1;
             img {
                 filter: invert(99%) sepia(1%) saturate(1280%) hue-rotate(333deg) brightness(108%) contrast(100%);
             }
